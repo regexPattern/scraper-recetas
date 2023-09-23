@@ -4,13 +4,16 @@ import { JSDOM } from "jsdom";
 import scrapers, { type ResultadoScraper } from "$lib/server/scrapers";
 
 export const GET: RequestHandler = async ({ fetch, url }) => {
-	const rawUrlReceta = url.searchParams.get("url");
+	const paramNombreReceta = url.searchParams.get("nombre-receta");
+	const paramUrlReceta = url.searchParams.get("url-receta");
 
-	if (!rawUrlReceta) {
-		throw error(400, "URL de receta requerido como parametro `url`.");
+	if (!paramNombreReceta) {
+		throw error(400, "Falta valor de `nombre-receta`.");
+	} else if (!paramUrlReceta) {
+		throw error(400, "Falta valor de `url-receta`.");
 	}
 
-	const urlReceta = new URL(decodeURI(rawUrlReceta));
+	const urlReceta = new URL(decodeURI(paramUrlReceta.toString()));
 
 	let scraper: (documento: Document) => ResultadoScraper | null;
 
