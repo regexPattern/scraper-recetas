@@ -1,10 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import type { Recipe } from "./types.d.ts";
+import type { Recipe } from "./types.js";
 
 import {
 	fetchAndScrape,
 	getIngredientsList,
-	getStepsList,
 	scrapeOpenGraphTags,
 } from "./_utils.js";
 
@@ -44,26 +43,40 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 function scraper(document: Document): Recipe {
 	const metaTags = scrapeOpenGraphTags(document);
 
+	// TODO: En este sitio estan usando un `<picture>` para tener diferentes
+	// sources. Por alguna razon, si saco directo de la imagen me toma una
+	// version de la imagen de baja resolucion (no he revisado, seguro asi esta
+	// el `<img>`).
+	//
 	const imgSrc = (
 		document.querySelector(".post-asset-main img") as HTMLImageElement
 	).src;
 
 	const ingredientsListElem = getIngredientsList(
 		document,
-		".asset-recipe-list ul",
+		".asset-recipe-list",
 	);
-	const stepsListElem = getStepsList(document, "#ingredientes ~ ol");
+	const stepsListElem = document.querySelectorAll(".asset-recipe-steps p");
 
 	const ingredients = [];
 	const steps = [];
 
 	for (const child of ingredientsListElem.children) {
 		if (child.textContent) {
-			ingredients.push(child.textContent.trim());
+      //
+      // REFACTOR: Si, esta horrible yo se, solo quiero que funcione por ahora.
+      //
+			let ingredientAndAmount = child.textContent.split("\n");
+			ingredientAndAmount = ingredientAndAmount.map((val) => val.trim());
+
+			const ingredient = ingredientAndAmount[1];
+			const amount = ingredientAndAmount[2];
+
+			ingredients.push(`${amount} ${ingredient}`.trim());
 		}
 	}
 
-	for (const child of stepsListElem.children) {
+	for (const child of stepsListElem) {
 		if (child.textContent) {
 			steps.push(child.textContent.trim());
 		}

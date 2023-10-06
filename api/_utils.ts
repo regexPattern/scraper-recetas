@@ -1,5 +1,5 @@
 import type { VercelResponse } from "@vercel/node";
-import type { RecipeMetaTag, Scraper } from "./types.d.ts";
+import type { RecipeMetaTag, Scraper } from "./types.js";
 
 import { JSDOM } from "jsdom";
 
@@ -73,7 +73,7 @@ export function getStepsList(
 	const ingredientsListElem = document.querySelector(selector);
 
 	if (!ingredientsListElem) {
-		throw Error("Lista de ingredientes no encontrada");
+		throw Error("Lista de pasos no encontrada");
 	}
 
 	return ingredientsListElem;
