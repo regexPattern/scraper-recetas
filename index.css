@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 :root {
-	--border-radius: 4px;
+	--global-padding: 16px;
 }
 
 * {
@@ -11,75 +11,20 @@
 }
 
 body {
-	font-family: 'Inter', sans-serif;
+	font-family: "Inter", sans-serif;
 }
 
 main {
-	max-width: 1024px;
 	margin: auto;
-	padding: 16px;
+	padding: var(--global-padding);
+	max-width: 768px;
 }
 
 form {
 	display: flex;
-	gap: 8px;
+	gap: calc(var(--global-padding) / 2);
 }
 
 input {
 	flex: 1 1 0;
-	padding: 0px 8px;
-	border: 1px solid #cbd5e1;
-	border-radius: var(--border-radius);
-}
-
-button {
-	align-items: center;
-	padding: 8px;
-	background-color: #3b82f6;
-	border: 1px solid #2563eb;
-	border-radius: var(--border-radius);
-	color: #f8fafc;
-	cursor: pointer;
-}
-
-button:disabled {
-	background-color: #cbd5e1;
-	border: 1px solid #94a3b8;
-	color: #64748b;
-	cursor: progress;
-}
-
-article {
-	margin-top: 16px;
-	padding: 16px;
-	border: 1px solid #cbd5e1;
-	border-radius: var(--border-radius);
-}
-
-article > * + * {
-	margin-top: 16px;
-}
-
-h2 {
-	text-align: center;
-}
-
-figure {
-	display: flex;
-	justify-content: center;
-}
-
-img {
-	width: min(640px, 100%);
-	object-fit: cover;
-	border: 1px solid #cbd5e1;
-	border-radius: var(--border-radius);
-}
-
-pre {
-	overflow-x: scroll;
-	font-size: 0.9rem;
-	padding: 16px;
-	border: 1px solid #cbd5e1;
-	border-radius: var(--border-radius);
 }

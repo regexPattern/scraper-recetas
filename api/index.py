@@ -7,35 +7,35 @@ from http.server import BaseHTTPRequestHandler
 from bs4 import BeautifulSoup
 
 
+SUPPOTED_WEBSITES_HOSTNAMES = ["www.paulinacocina.net"]
+
+
 class handler(BaseHTTPRequestHandler):
+    error_message_format = '{"error": "%(explain)s"}'
+    error_content_type = "application/json"
+
     def do_GET(self):
         query_str = parse.urlparse(self.path).query
         recipe_urls_params = parse.parse_qs(query_str).get("url", [])
 
         if len(recipe_urls_params) == 0:
-            self.send_response(400)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(b'{"error": "Missing \'url\' query param."}')
+            self.send_error(
+                400, None, 'Missing "url" query params indicating the website to scrape')
             return
 
         recipe_url = parse.urlparse(recipe_urls_params.pop(0))
 
         logging.info(recipe_url.geturl())
 
-        if recipe_url.hostname != "www.paulinacocina.net":
-            self.send_response(400)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(
-                (f'{"error": f"Scraping for `{recipe_url.hostname}` is not supported."}').encode())
+        if not (recipe_url.hostname in SUPPOTED_WEBSITES_HOSTNAMES):
+            self.send_error(
+                501, None, f"Recipe scraping is only supported for the following websites: {SUPPOTED_WEBSITES_HOSTNAMES}")
             return
 
         try:
             req = requests.get(recipe_url.geturl())
         except Exception as error:
-            self.send_response(500)
-            self.end_headers()
+            self.send_error(500, None, "Couldn't fetch the recipe website")
             return
 
         parser = BeautifulSoup(req.text, "html.parser")
@@ -46,20 +46,16 @@ class handler(BaseHTTPRequestHandler):
         try:
             title = parser.find("h1", attrs={"class": "entry-title"}).text
         except AttributeError:
-            self.send_response(400)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(b'{"error": "Missing recipe title in then given webpage."}')
+            self.send_error(
+                400, None, "Couldn't find the recipe's title in the given webpage")
             return
 
         try:
             image_node = parser.find(
                 attrs={"class": "post-thumb-img-content"}).find("img")
         except AttributeError:
-            self.send_response(400)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(b'{"error": "Missing recipe image in then given webpage."}')
+            self.send_error(
+                400, None, "Couldn't find the recipe's image in the given webpage")
             return
 
         ingredients_section_node = parser.find(id="ingredientes")
@@ -68,19 +64,16 @@ class handler(BaseHTTPRequestHandler):
             ingredient_li_nodes = ingredients_section_node.find_next_sibling(
                 "ul").find_all("li")
         except AttributeError:
-            self.send_response(400)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(b'{"error": "Missing ingredients list in then given webpage."}')
+            self.send_error(
+                400, None, "Couldn't find the recipe's ingredients list in the given webpage")
             return
 
         try:
             steps_ol_nodes = ingredients_section_node.find_next_sibling(
                 "ol").find_all("li")
         except AttributeError:
-            self.send_response(400)
-            self.send_header("Content-Type", "application/json")
-            self.wfile.write(b'{"error": "Missing steps list in then given webpage."}')
+            self.send_error(
+                400, None, "Couldn't find the recipe's steps list in the given webpage")
             return
 
         ingredients = list(map(lambda li: li.text, ingredient_li_nodes))

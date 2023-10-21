@@ -19,7 +19,7 @@ form.addEventListener("submit", async (event) => {
 
   submitBtn.disabled = true;
 
-  const res = await fetch(`http://localhost:3000/api?url=${recipeUrl}`);
+  const res = await fetch(`/api?url=${recipeUrl}`);
   const payload = await res.json();
 
   submitBtn.disabled = false;
