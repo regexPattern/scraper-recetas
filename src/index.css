@@ -1,0 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+
+:root {
+	--border-radius: 4px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Inter", sans-serif;
+}
+
+header {
+	position: sticky;
+	top: 0;
+	letter-spacing: -0.25px;
+	background-color: #ffffffaa;
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid #cbd5e1;
+}
+
+.container {
+	padding: 16px;
+	margin: auto;
+	max-width: 768px;
+}
+
+header > .container {
+	display: flex;
+	justify-content: space-between;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+#website-logo {
+	font-weight: 700;
+}
+
+form {
+	display: flex;
+	gap: 8px;
+}
+
+form > * {
+	padding: 10px 12px;
+	border-radius: var(--border-radius);
+}
+
+form > *:focus {
+	outline: 2px solid #a1a1aa;
+	outline-offset:	2px;
+}
+
+input {
+	flex: 1 1 0;
+	background-color: #ffffff;
+	border: 1px solid #cbd5e1;
+	font-size: 1rem;
+}
+
+button[type="submit"] {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	color: #ffffff;
+	background-color: #000000;
+	border: 1px solid #000000;
+	font-size: 0.90rem;
+	letter-spacing: 0.25px;
+}
+
+button[type="submit"] > svg {
+	width: 20px;
+	height: 20px;
+	fill: none;
+	stroke: currentColor;
+}
+
+button[type="submit"]:disabled > svg {
+	animation: 1s ease infinite spinner;
+}
+
+@keyframes spinner {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+button:hover {
+	cursor: pointer;
+}
+
+button:disabled {
+	background-color: #a1a1aa;
+	border-color: #a1a1aa;
+	cursor: progress;
+}
+
+#results > * {
+	margin-top: 16px;
+}
+
+.recipe {
+	padding: 16px;
+	border: 1px solid #cbd5e1;
+	border-radius: var(--border-radius);
+}
+
+.recipe > * + * {
+	margin-top: 16px;
+}
+
+.recipe h2 {
+	font-size: 1.5rem;
+	letter-spacing: -0.5px;
+}
+
+.recipe figure {
+	text-align: center;
+}
+
+.recipe img {
+	width: min(490px, 100%);
+	object-fit: cover;
+}
+
+.recipe pre {
+	padding: 16px;
+	border: 1px solid #cbd5e1;
+	border-radius: var(--border-radius);
+	overflow-x: scroll;
+}
+
+@media screen and (max-width: 375px) {
+	button[type="submit"] > span {
+		display: none;
+	}
+}

@@ -1,20 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./src/index.css" />
   </head>
   <body>
-    <main>
-    <form>
-      <input name="recipe-url" value="https://www.paulinacocina.net/como-hacer-arroz-caldoso/30570" />
-      <button type="sumit">Buscar</button>
-    </form>
-    <section id="results">
-    </section>
-</main>
-    <script src="./index.js"></script>
+    <header>
+      <div class="container">
+        <div id="website-logo">Scraper Recetas</div>
+        <div>
+          <a href="https://github.com/regexPattern/scraper-recetas" target="_blank">Github</a>
+        </div>
+      </div>
+    </header>
+    <main class="container">
+      <form>
+        <input
+          name="recipe-url"
+          value="https://www.paulinacocina.net/como-hacer-arroz-caldoso/30570"
+        />
+        <button type="submit">
+          <span>Agregar</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </button>
+      </form>
+      <section id="results">
+        <article class="recipe">
+          <h2>Receta de arroz caldoso y varias ideas más</h2>
+          <p>
+            ¿Quieres disfrutar de un arroz caldoso casero? Con esta receta
+            podrás deleitarte con este plato tradicional lleno de sabor y
+            textura.
+          </p>
+          <figure>
+            <img
+              src="https://www.paulinacocina.net/wp-content/uploads/2023/05/arroz-caldoso-consejos-y-tips.jpg"
+            />
+          </figure>
+          <pre><code>{
+  "title": "Receta de arroz caldoso y varias ideas más",
+  "description": "¿Quieres disfrutar de un arroz caldoso casero? Con esta receta podrás deleitarte con este plato tradicional lleno de sabor y textura.",
+  "img": "https://www.paulinacocina.net/wp-content/uploads/2023/05/arroz-caldoso-consejos-y-tips.jpg",
+  "tags": [
+    "ajo",
+    "arroz",
+    "cebolla",
+    "tomate"
+  ],
+  "ingredients": [
+    "2 pechugas de pollo, cortadas en trozos",
+    "1 cebolla, picada",
+    "2 dientes de ajo, picados",
+    "1 pimiento rojo, cortado en trozos",
+    "1 tomate maduro, picado",
+    "1 taza de arroz",
+    "4 tazas de caldo de pollo",
+    "Aceite de oliva, sal y pimienta a gusto",
+    "Un puñado de perejil fresco picado (opcional)"
+  ],
+  "steps": [
+    "En una olla, calentar un poco de aceite a fuego medio-alto. Agregar el pollo y cocinar hasta que esté dorado por todos lados. Retirar de la olla y reservar.",
+    "En la misma olla, añadir la cebolla, el ajo y el pimiento rojo. Cocinar hasta que estén tiernos. Agregar el tomate y cocinar por unos minutos hasta que se ablande.",
+    "Añadir el arroz y mezclar bien con el sofrito. Verter el caldo de pollo en la olla y llevar a ebullición.",
+    "Reducir el fuego a medio-bajo y cocinar durante 15-20 minutos o hasta que el arroz esté tierno y el caldo haya adquirido una textura caldosa.",
+    "Volver a incorporar el pollo a la olla y cocinar por unos minutos más hasta que esté bien caliente. Sazonar con sal y pimienta al gusto.",
+    "Servir el arroz caldoso con pollo caliente. Añadir un poco de perejil fresco picado por encima."
+  ]
+}</code></pre>
+        </article>
+      </section>
+    </main>
+    <script src="./src/index.js" type="module"></script>
   </body>
 </html>

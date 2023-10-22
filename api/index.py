@@ -2,16 +2,16 @@ import json
 import logging
 import requests
 
-from urllib import parse
-from http.server import BaseHTTPRequestHandler
 from bs4 import BeautifulSoup
+from http.server import BaseHTTPRequestHandler
+from urllib import parse
 
 
 SUPPOTED_WEBSITES_HOSTNAMES = ["www.paulinacocina.net"]
 
 
 class handler(BaseHTTPRequestHandler):
-    error_message_format = '{"error": "%(explain)s"}'
+    error_message_format = '{"errors": "%(explain)s"}'
     error_content_type = "application/json"
 
     def do_GET(self):
@@ -20,7 +20,7 @@ class handler(BaseHTTPRequestHandler):
 
         if len(recipe_urls_params) == 0:
             self.send_error(
-                400, None, 'Missing "url" query params indicating the website to scrape')
+                400, None, "Missing 'url' query params indicating the website to scrape")
             return
 
         recipe_url = parse.urlparse(recipe_urls_params.pop(0))
@@ -34,14 +34,14 @@ class handler(BaseHTTPRequestHandler):
 
         try:
             req = requests.get(recipe_url.geturl())
-        except Exception as error:
+        except Exception:
             self.send_error(500, None, "Couldn't fetch the recipe website")
             return
 
         parser = BeautifulSoup(req.text, "html.parser")
 
-        meta_tag_nodes = parser.find_all("meta", {"property": "article:tag"})
-        recipe_tags = list(map(lambda meta: meta["content"], meta_tag_nodes))
+        opengraph_tag_nodes = parser.find_all("meta", {"property": "article:tag"})
+        recipe_tags = list(map(lambda tag: tag["content"], opengraph_tag_nodes))
 
         try:
             title = parser.find("h1", attrs={"class": "entry-title"}).text
@@ -49,6 +49,11 @@ class handler(BaseHTTPRequestHandler):
             self.send_error(
                 400, None, "Couldn't find the recipe's title in the given webpage")
             return
+
+        description = ""
+
+        if description_node := parser.find("meta", {"name": "description"}):
+            description = description_node["content"] or ""
 
         try:
             image_node = parser.find(
@@ -81,6 +86,7 @@ class handler(BaseHTTPRequestHandler):
 
         recipe_data = {
             "title": title,
+            "description": description,
             "img": image_node["src"],
             "tags": recipe_tags,
             "ingredients": ingredients,
