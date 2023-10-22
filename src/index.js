@@ -1,12 +1,12 @@
 /**
  * @typedef {{
  *  url: string,
- *  title: string,
- *  description: string,
+ *  titulo: string,
+ *  descripcion: string,
  *  img: string,
- *  tags: string[],
- *  ingredients: string[],
- *  steps: string[],
+ *  etiquetas: string[],
+ *  ingredientes: string[],
+ *  pasos: string[],
  * }} Recipe
  */
 
@@ -77,14 +77,14 @@ function showRecipe(recipe) {
 
   recipeURL.href = recipe.url;
   recipeURL.target = "_blank";
-  recipeURL.textContent = recipe.title;
+  recipeURL.textContent = recipe.titulo;
 
   recipeTitle.appendChild(recipeURL);
   recipeArticle.appendChild(recipeTitle);
 
-  if (recipe.description) {
+  if (recipe.descripcion) {
     const recipeDescription = document.createElement("p");
-    recipeDescription.textContent = recipe.description;
+    recipeDescription.textContent = recipe.descripcion;
     recipeArticle.appendChild(recipeDescription);
   }
 
