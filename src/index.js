@@ -71,5 +71,12 @@ function showRecipe(recipe) {
   recipeFigure.appendChild(recipeImg);
   recipeArticle.appendChild(recipeFigure);
 
+  const recipePre = document.createElement("pre");
+  const recipeCode = document.createElement("code");
+
+  recipeCode.textContent = JSON.stringify(recipe, null, 2);
+  recipePre.appendChild(recipeCode);
+  recipeArticle.appendChild(recipePre);
+
   results.appendChild(recipeArticle);
 }
