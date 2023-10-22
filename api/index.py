@@ -85,6 +85,7 @@ class handler(BaseHTTPRequestHandler):
         steps = list(map(lambda li: li.text, steps_ol_nodes))
 
         recipe_data = {
+            "url": recipe_url.geturl(),
             "title": title,
             "description": description,
             "img": image_node["src"],

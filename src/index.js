@@ -1,5 +1,6 @@
 /**
  * @typedef {{
+ *  url: string,
  *  title: string,
  *  description: string,
  *  img: string,
@@ -42,9 +43,27 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-// TODO: Implement this logger.
+const notificationsList = document.getElementById("notifications"); 
+const NOTIFICATION_TIMEOUT_MS = 5000;
+
 /** @param {string} errorMsg */
-function logError() {}
+function logError(errorMsg) {
+  const notification = document.createElement("div");
+
+  notification.classList.add("error-notification");
+
+  notification.innerHTML = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.75">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+<span>${errorMsg}</span>`;
+
+  notificationsList.appendChild(notification);
+
+  setTimeout(() => {
+    notificationsList.removeChild(notification);
+  }, NOTIFICATION_TIMEOUT_MS);
+}
 
 const results = document.getElementById("results");
 
@@ -54,7 +73,13 @@ function showRecipe(recipe) {
   recipeArticle.classList.add("recipe");
 
   const recipeTitle = document.createElement("h2");
-  recipeTitle.textContent = recipe.title;
+  const recipeURL = document.createElement("a");
+
+  recipeURL.href = recipe.url;
+  recipeURL.target = "_blank";
+  recipeURL.textContent = recipe.title;
+
+  recipeTitle.appendChild(recipeURL);
   recipeArticle.appendChild(recipeTitle);
 
   if (recipe.description) {

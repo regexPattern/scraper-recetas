@@ -21,27 +21,39 @@
     </header>
     <main class="container">
       <form>
-        <input
-          name="recipe-url"
-          value="https://www.paulinacocina.net/como-hacer-arroz-caldoso/30570"
-        />
-        <button type="submit">
-          <span>Agregar</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
+        <label for="recipe-url-input"
+          >Agregá un link de una receta de
+          <a href="https://www.paulinacocina.net/">Paulina Cocina</a> y obtené
+          la información más importante sin necesidad de buscarla manualmente.
+          Funciona con la mayoría de recetas de Paulina Cocina, ya que muchas
+          comparten formato, pero puede haber alguna que no ande.</label
+        >
+        <div>
+          <input
+            id="recipe-url-input"
+            name="recipe-url"
+            value="https://www.paulinacocina.net/como-hacer-arroz-caldoso/30570"
+            required
+          />
+          <button type="submit">
+            <span>Agregar</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              stroke-width="1.75"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </button>
+        </div>
       </form>
       <section id="results"></section>
     </main>
+    <div id="notifications"></div>
     <script src="./src/index.js" type="module"></script>
   </body>
 </html>
