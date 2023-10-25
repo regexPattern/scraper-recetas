@@ -46,7 +46,7 @@ form.addEventListener("submit", async (event) => {
 const notificationsList = document.getElementById("notifications");
 
 const NOTIFICATION_TIMEOUT_MS = 5000;
-const NOTIFICATION_SLIDE_ANIMATION_DURATION_MS = 500;
+const NOTIFICATION_SLIDE_ANIMATION_DURATION_MS = 300;
 
 /** @param {string} errorMsg */
 function logError(errorMsg) {
@@ -87,6 +87,7 @@ function logError(errorMsg) {
 }
 
 const results = document.getElementById("results");
+const headerHeight = document.getElementsByTagName("header")[0].offsetHeight;
 
 /** @param {Recipe} recipe */
 function showRecipe(recipe) {
@@ -125,4 +126,11 @@ function showRecipe(recipe) {
   recipeArticle.appendChild(recipePre);
 
   results.appendChild(recipeArticle);
+
+  const previousSibling = recipeArticle.previousElementSibling;
+
+  if (previousSibling) {
+    const pxToScrollTo = previousSibling.getBoundingClientRect().bottom;
+    window.scrollTo({ top: pxToScrollTo - headerHeight, behavior: "smooth" });
+  }
 }
