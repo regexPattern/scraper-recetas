@@ -126,11 +126,4 @@ function showRecipe(recipe) {
   recipeArticle.appendChild(recipePre);
 
   results.appendChild(recipeArticle);
-
-  const previousSibling = recipeArticle.previousElementSibling;
-
-  if (previousSibling) {
-    const pxToScrollTo = previousSibling.getBoundingClientRect().bottom;
-    window.scrollTo({ top: pxToScrollTo - headerHeight, behavior: "smooth" });
-  }
 }
