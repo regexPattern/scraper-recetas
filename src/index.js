@@ -43,8 +43,10 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-const notificationsList = document.getElementById("notifications"); 
+const notificationsList = document.getElementById("notifications");
+
 const NOTIFICATION_TIMEOUT_MS = 5000;
+const NOTIFICATION_SLIDE_ANIMATION_DURATION_MS = 500;
 
 /** @param {string} errorMsg */
 function logError(errorMsg) {
@@ -58,10 +60,29 @@ function logError(errorMsg) {
 </svg>
 <span>${errorMsg}</span>`;
 
+  const initialBB = notificationsList.getBoundingClientRect();
+
   notificationsList.appendChild(notification);
 
+  const finalBB = notificationsList.getBoundingClientRect();
+  const deltaY = initialBB.top - finalBB.top;
+
+  for (const child of notificationsList.children) {
+    child.animate(
+      [{ transform: `translateY(${deltaY}px)` }, { transform: "none" }],
+      { duration: NOTIFICATION_SLIDE_ANIMATION_DURATION_MS, easing: "ease-out" }
+    );
+  }
+
   setTimeout(() => {
-    notificationsList.removeChild(notification);
+    const animation = notification.animate([{ right: 0 }, { right: "-100%" }], {
+      duration: NOTIFICATION_SLIDE_ANIMATION_DURATION_MS,
+      easing: "ease-in",
+    });
+
+    animation.addEventListener("finish", () => {
+      notificationsList.removeChild(notification);
+    });
   }, NOTIFICATION_TIMEOUT_MS);
 }
 

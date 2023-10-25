@@ -181,6 +181,7 @@ button:disabled {
 }
 
 .error-notification {
+  position: relative;
 	padding: 12px;
 	display: flex;
 	gap: 8px;
